@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Site Selection - Model Builder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #dde4ec;
+            background-image:
+                linear-gradient(rgba(180, 190, 210, 0.4) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(180, 190, 210, 0.4) 1px, transparent 1px);
+            background-size: 20px 20px;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 1.6rem;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: #333;
+        }
+
+        .legend-shape {
+            width: 45px;
+            height: 25px;
+            border: 2px solid;
+        }
+
+        .legend-shape.input {
+            background: linear-gradient(180deg, #b8d4f0 0%, #8ab8e0 100%);
+            border-color: #5a8ac4;
+            border-radius: 12px;
+        }
+
+        .legend-shape.tool {
+            background: linear-gradient(180deg, #fef3b5 0%, #f4d03f 100%);
+            border-color: #c9a227;
+            border-radius: 3px;
+        }
+
+        .legend-shape.derived {
+            background: linear-gradient(180deg, #b8f0c8 0%, #7dd89a 100%);
+            border-color: #4ac76d;
+            border-radius: 12px;
+        }
+
+        .model-container {
+            display: flex;
+            justify-content: center;
+            overflow-x: auto;
+        }
+
+        .model-canvas {
+            position: relative;
+            width: 1100px;
+            height: 520px;
+        }
+
+        /* Node Styles */
+        .node {
+            position: absolute;
+            text-align: center;
+            font-size: 0.72rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.3;
+            z-index: 10;
+        }
+
+        .node.input {
+            background: linear-gradient(180deg, #b8d4f0 0%, #8ab8e0 100%);
+            border: 2px solid #5a8ac4;
+            border-radius: 50%;
+            width: 110px;
+            height: 55px;
+            color: #1a3a5c;
+            font-weight: 500;
+        }
+
+        .node.tool {
+            background: linear-gradient(180deg, #fef3b5 0%, #f4d03f 100%);
+            border: 2px solid #c9a227;
+            border-radius: 4px;
+            min-width: 90px;
+            height: 45px;
+            color: #5a4a00;
+            font-weight: 600;
+            padding: 5px 10px;
+        }
+
+        .node.derived {
+            background: linear-gradient(180deg, #b8f0c8 0%, #7dd89a 100%);
+            border: 2px solid #4ac76d;
+            border-radius: 50%;
+            min-width: 130px;
+            height: 60px;
+            color: #1a5c30;
+            padding: 5px 10px;
+        }
+
+        .node.final {
+            background: linear-gradient(180deg, #7dd89a 0%, #3cb860 100%);
+            border: 3px solid #27a34d;
+            border-radius: 50%;
+            width: 140px;
+            height: 70px;
+            color: #0d4020;
+            font-weight: 600;
+        }
+
+        /* SVG Arrows */
+        .arrows-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .arrow-line {
+            stroke: #444;
+            stroke-width: 1.5;
+            fill: none;
+            marker-end: url(#arrowhead);
+        }
+
+        /* Stats footer */
+        .stats-footer {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+            background: #fff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #27a34d;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>🏫 School Site Selection - Model Builder</h1>
+        <p>HW2: PostGIS Spatial Analysis Workflow</p>
+    </div>
+
+    <div class="legend">
+        <div class="legend-item">
+            <div class="legend-shape input"></div>
+            <span>Project Data</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-shape tool"></div>
+            <span>Tool</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-shape derived"></div>
+            <span>Derived Data</span>
+        </div>
+    </div>
+
+    <div class="model-container">
+        <div class="model-canvas">
+            <!-- SVG for arrows -->
+            <svg class="arrows-svg" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                        <polygon points="0 0, 8 3, 0 6" fill="#444" />
+                    </marker>
+                </defs>
+
+                <!-- Landuse to WHERE Filter -->
+                <path class="arrow-line" d="M 115,45 L 160,45" />
+
+                <!-- WHERE Filter to suitable_landuse_types -->
+                <path class="arrow-line" d="M 280,45 L 330,45" />
+
+                <!-- suitable_landuse_types to ST_Area -->
+                <path class="arrow-line" d="M 480,45 L 530,45" />
+
+                <!-- ST_Area to suitable_area_parcels -->
+                <path class="arrow-line" d="M 640,45 L 690,45" />
+
+                <!-- suitable_area_parcels down to NOT EXISTS -->
+                <path class="arrow-line" d="M 820,75 L 820,130 L 640,130 L 640,170" />
+
+                <!-- Buildings to NOT EXISTS -->
+                <path class="arrow-line" d="M 115,185 L 160,185 L 160,185 L 550,185" />
+
+                <!-- NOT EXISTS to parcels_without_buildings -->
+                <path class="arrow-line" d="M 730,185 L 780,185" />
+
+                <!-- parcels_without_buildings down to ST_DWithin -->
+                <path class="arrow-line" d="M 910,215 L 910,270 L 640,270 L 640,310" />
+
+                <!-- Roads to ST_DWithin -->
+                <path class="arrow-line" d="M 115,325 L 160,325 L 160,325 L 550,325" />
+
+                <!-- ST_DWithin to final_school_sites -->
+                <path class="arrow-line" d="M 730,325 L 780,325" />
+
+                <!-- final to result indicator -->
+                <path class="arrow-line" d="M 920,325 L 970,325 L 970,420 L 1010,420" />
+
+            </svg>
+
+            <!-- ============ ROW 1: Landuse Processing ============ -->
+            <div class="node input" style="left: 5px; top: 18px;">
+                school_site<br>.landuse<br><small>277 parcels</small>
+            </div>
+
+            <div class="node tool" style="left: 160px; top: 22px; width: 120px;">
+                WHERE Filter<br><small>TYPE IN (...)</small>
+            </div>
+
+            <div class="node derived" style="left: 330px; top: 15px; width: 150px;">
+                suitable_landuse<br>_types<br><small>Un-Used, Agri, Commercial</small>
+            </div>
+
+            <div class="node tool" style="left: 530px; top: 22px; width: 110px;">
+                ST_Area Filter<br><small>≥ 5000 m²</small>
+            </div>
+
+            <div class="node derived" style="left: 690px; top: 15px; width: 140px;">
+                suitable_area<br>_parcels<br><b>23 parcels</b>
+            </div>
+
+            <!-- ============ ROW 2: Buildings Exclusion ============ -->
+            <div class="node input" style="left: 5px; top: 158px;">
+                school_site<br>.buildings<br><small>251 buildings</small>
+            </div>
+
+            <div class="node tool" style="left: 550px; top: 162px; width: 180px;">
+                NOT EXISTS<br>ST_Intersects<br><small>Exclude parcels with buildings</small>
+            </div>
+
+            <div class="node derived" style="left: 780px; top: 155px; width: 140px;">
+                parcels_without<br>_buildings<br><b>17 parcels</b>
+            </div>
+
+            <!-- ============ ROW 3: Roads Proximity ============ -->
+            <div class="node input" style="left: 5px; top: 298px;">
+                school_site<br>.roads<br><small>13 roads</small>
+            </div>
+
+            <div class="node tool" style="left: 550px; top: 302px; width: 180px;">
+                ST_DWithin<br><small>Within 25 meters</small>
+            </div>
+
+            <div class="node derived" style="left: 780px; top: 295px; width: 140px;">
+                final_school<br>_sites<br><b>7 parcels</b>
+            </div>
+
+            <!-- ============ FINAL RESULT ============ -->
+            <div class="node final" style="left: 950px; top: 385px;">
+                Final School<br>Sites<br><b>7 sites ⭐</b>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Stats Footer -->
+    <div class="stats-footer">
+        <div class="stat-item">
+            <div class="stat-value">277</div>
+            <div class="stat-label">Total Parcels</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value">→ 140</div>
+            <div class="stat-label">Suitable Types</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value">→ 23</div>
+            <div class="stat-label">Area ≥ 5000m²</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value">→ 17</div>
+            <div class="stat-label">No Buildings</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value">→ 7</div>
+            <div class="stat-label">Near Roads ✓</div>
+        </div>
+    </div>
+</body>
+
+</html>
