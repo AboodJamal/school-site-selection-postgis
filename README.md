@@ -287,6 +287,12 @@ Located in the `data/shapefiles/` directory:
 | Agricultural Areas | 2 | 15,797.16 |
 | **Total** | **7** | **52,779.20** |
 
+### 🗺️ Spatial Output (QGIS Visualization)
+
+<p align="center">
+  <img src="visual-outputs/canvas-layers-visual.png" alt="Final School Sites - QGIS Visualization" width="800"/>
+</p>
+
 ---
 
 ## Technical Implementation
