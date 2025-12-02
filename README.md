@@ -4,6 +4,20 @@
   <img src="docs/model-builder.png" alt="Model Builder Workflow" width="800"/>
 </p>
 
+## Assignment
+
+> **Task:** Find new areas suitable for building a new school.
+>
+> **Selection Criteria:**
+> 1. Land use types should be **unused**, **agricultural land**, or **commercial land**
+> 2. Area should be **≥ 5,000 m²**
+> 3. **No buildings** should be on the land use parcels
+> 4. Areas should be within **25 meters** from the nearest road
+>
+> **Tools:** SQL in PostGIS + QGIS for visualization
+
+---
+
 ## Project Overview
 
 This project uses **PostGIS spatial analysis** to identify suitable locations for building a new school based on multiple spatial and attribute criteria. The solution automates the site selection process using SQL queries and spatial functions.
@@ -322,7 +336,7 @@ school-site-selection-postgis/
 │   ├── model-builder.html
 │   └── model-builder.png
 ├── visual-outputs/              # QGIS visualization exports
-├── qgis-project.qgz             # QGIS project file
+├── school-site-selection.qgz   # QGIS project file
 ├── SOLUTION.md                  # Complete SQL solution
 └── README.md                    # This file
 ```
