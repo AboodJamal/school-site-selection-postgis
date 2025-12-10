@@ -343,7 +343,7 @@ school-site-selection-postgis/
 │   └── model-builder.png
 ├── visual-outputs/              # QGIS visualization exports
 ├── school-site-selection.qgz   # QGIS project file
-├── SOLUTION.md                  # Complete SQL solution
+├── REPORT.md                    # Complete analysis report
 └── README.md                    # This file
 ```
 
@@ -374,9 +374,9 @@ school-site-selection-postgis/
    - Leave SRID as detected (0 or auto)
    - Check "Create spatial index"
 
-3. **Run SQL Solution**
-   - Open `SOLUTION.md` in pgAdmin
-   - Execute statements sequentially
+3. **Run SQL Queries**
+   - Open `REPORT.md` for the complete analysis
+   - Execute SQL statements in pgAdmin sequentially
    - Verify results at each step
 
 4. **Visualize in QGIS**
@@ -386,9 +386,9 @@ school-site-selection-postgis/
 
 ---
 
-## Solution File
+## Analysis Report
 
-For the complete SQL solution with detailed comments and test queries, see **[SOLUTION.md](./SOLUTION.md)**.
+For the complete analysis report with methodology, SQL implementation, results, and recommendations, see **[REPORT.md](./REPORT.md)**.
 
 ---
 
