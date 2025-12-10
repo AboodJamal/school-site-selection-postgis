@@ -462,9 +462,9 @@ For the complete SQL solution with detailed comments and test queries, see **[SO
 
 ---
 
-## Author
+## Authors
 
-**Abdullah Jamal**  
+**Abdallah Alharrem** & **Hossam Shehadeh**  
 Spatial Data Analysis Course  
 School Site Selection using PostGIS
 
