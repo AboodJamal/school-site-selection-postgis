@@ -61,14 +61,14 @@ The analysis employs a **multi-criteria decision analysis (MCDA)** approach impl
 The primary objective of this project is to identify and evaluate potential sites for new school construction using systematic spatial analysis. The analysis leverages PostGIS spatial functions to automate site selection based on predefined suitability criteria.
 
 <p align="center">
-  <img src="docs/assignment-question.png" alt="Assignment Question" width="700"/>
+  <img src="../docs/assignment-question.png" alt="Assignment Question" width="700"/>
   <br><em>Figure 1.1: Original Assignment Specification</em>
 </p>
 
 ### 1.2 Analytical Workflow
 
 <p align="center">
-  <img src="docs/model-builder.png" alt="Model Builder Workflow" width="800"/>
+  <img src="../docs/model-builder.png" alt="Model Builder Workflow" width="800"/>
   <br><em>Figure 1.2: PostGIS Analysis Workflow - Multi-Criteria Site Selection Process</em>
 </p>
 
@@ -693,7 +693,7 @@ UNION ALL SELECT 'final_school_sites', COUNT(*) FROM school_site.final_school_si
 ### 5.1 Spatial Output - Final School Sites Map
 
 <p align="center">
-  <img src="visual-outputs/canvas-layers-visual.png" alt="Final School Sites Map" width="900"/>
+  <img src="../visual-outputs/canvas-layers-visual.png" alt="Final School Sites Map" width="900"/>
   <br><em>Figure 5.1: QGIS Visualization of Final 7 School Sites with Contextual Layers</em>
 </p>
 
@@ -710,7 +710,7 @@ UNION ALL SELECT 'final_school_sites', COUNT(*) FROM school_site.final_school_si
 4. Sites located in peripheral zones with development potential
 
 <p align="center">
-  <img src="visual-outputs/canvas-layers-names.png" alt="QGIS Layer Structure" width="300"/>
+  <img src="../visual-outputs/canvas-layers-names.png" alt="QGIS Layer Structure" width="300"/>
   <br><em>Figure 5.2: QGIS Layer Organization and Styling</em>
 </p>ration
 
